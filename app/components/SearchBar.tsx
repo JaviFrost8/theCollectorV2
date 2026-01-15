@@ -24,9 +24,9 @@ export const SearchBar = ({ initialSearch = '' }: SearchBarProps) => {
       <input
         type="text"
         value={searchTerm}
-        placeholder="Buscar película"
+        placeholder="Buscar película por título"
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-[80%] px-5 py-2 mr-8 bg-[#232F48] rounded-md"
+        className="w-[80%] px-5 py-2 mr-8 bg-[#232F48] rounded-md focus:outline-none"
       />
 
       <button

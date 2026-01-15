@@ -7,3 +7,22 @@ export interface Movie {
   vote_average: number;
   backdrop_path: string;
 }
+
+export interface Actor {
+  id: number;
+  name: string;
+  profile_path: string;
+}
+
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface Person {
+  id: number;
+  known_for_department: string;
+  name: string;
+  profile_path?: string;
+  character?: string;
+}
