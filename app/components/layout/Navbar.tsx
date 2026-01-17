@@ -1,6 +1,11 @@
+'use client';
+
+import { useContextAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 
 export const Navbar = () => {
+  const { login, logout, user } = useContextAuth();
+
   return (
     <nav className="flex w-full justify-between px-20 py-5 border-b border-[#232f48]">
       <Link href="/">
@@ -21,20 +26,34 @@ export const Navbar = () => {
           <h2 className="pt-0.5 px-2">El Colector</h2>
         </div>
       </Link>
-      <ul className="flex gap-4">
-        <li>
-          <Link href={'/'}>Dashboard</Link>
-        </li>
-        <li>
-          <Link href={'/collection'}>Mi Colección</Link>
-        </li>
-        <li>
-          <Link href={'/favorites'}>Favoritos</Link>
-        </li>
-        <li>
-          <Link href={'/search'}>Buscar</Link>
-        </li>
-      </ul>
+      {!user ? (
+        <ul className="flex gap-4">
+          <li className="cursor-pointer" onClick={login}>
+            Login
+          </li>
+          <li>
+            <Link href={'/search'}>Buscar</Link>
+          </li>
+        </ul>
+      ) : (
+        <ul className="flex gap-4">
+          <li>
+            <Link href={'/'}>Dashboard</Link>
+          </li>
+          <li>
+            <Link href={'/collection'}>Mi Colección</Link>
+          </li>
+          <li>
+            <Link href={'/favorites'}>Favoritos</Link>
+          </li>
+          <li>
+            <Link href={'/search'}>Buscar</Link>
+          </li>
+          <li onClick={logout}>
+            <button className="cursor-pointer">Logout</button>
+          </li>
+        </ul>
+      )}
     </nav>
   );
 };
