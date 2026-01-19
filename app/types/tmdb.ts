@@ -5,7 +5,14 @@ export interface Movie {
   poster_path: string | null;
   release_date: string;
   vote_average: number;
+  genres: Genre[];
+  runtime: number;
   backdrop_path: string;
+}
+
+export interface Credits {
+  cast: Person[];
+  crew: Person[];
 }
 
 export interface Actor {

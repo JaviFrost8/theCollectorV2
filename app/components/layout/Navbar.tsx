@@ -8,7 +8,7 @@ export const Navbar = () => {
 
   return (
     <nav className="flex w-full justify-between px-20 py-5 border-b border-[#232f48]">
-      <Link href="/">
+      <Link href="/search">
         <div className="flex">
           <svg
             xmlns="http://www.w3.org/2000/svg"
