@@ -6,7 +6,8 @@ import {
   signOut,
   User,
 } from 'firebase/auth';
-import { auth, googleProvider } from '@/lib/firebaseConfig';
+import { auth, googleProvider } from '@/app/firebase/firebaseConfig';
+import { createUserDocument } from '@/app/firebase/firestore';
 
 type AuthContextType = {
   user: User | null;
@@ -33,8 +34,11 @@ export function AuthProvider({
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
+      if (firebaseUser) {
+        await createUserDocument(firebaseUser);
+      }
       console.log(firebaseUser);
     });
 

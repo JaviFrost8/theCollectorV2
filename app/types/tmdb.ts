@@ -33,3 +33,11 @@ export interface Person {
   profile_path?: string;
   character?: string;
 }
+
+export interface TmdbMovie {
+  id: number;
+  title: string;
+  poster_path: string;
+  release_date: string;
+  genres: { id: number; name: string }[];
+}

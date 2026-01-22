@@ -1,9 +1,13 @@
 'use client';
 
-import { Credits, Genre, Movie, Person } from '@/app/types/tmdb';
+import { Credits, Genre, Movie, Person, TmdbMovie } from '@/app/types/tmdb';
 import { useContextAuth } from '@/context/AuthContext';
+import { db } from '@/app/firebase/firebaseConfig';
 import { formatRuntime } from '@/lib/formatRuntime';
+import { addDoc, collection, doc, onSnapshot } from 'firebase/firestore';
 import Image from 'next/image';
+import { addMovieToUser, removeMovieFromUser } from '../firebase/movies';
+import { useEffect, useState } from 'react';
 
 interface MovieInfoProps {
   movie: Movie;
@@ -19,7 +23,43 @@ export const MovieInfo = ({ movie, credits }: MovieInfoProps) => {
     (person: Person) => person.known_for_department === 'Writing',
   );
 
+  const [inCollection, setInCollection] = useState(false);
+
   const { user } = useContextAuth();
+
+  async function handleAddMovie() {
+    if (!user) return;
+
+    const tmdbMovie: TmdbMovie = {
+      id: movie.id,
+      title: movie.title,
+      poster_path: movie.poster_path || '',
+      release_date: movie.release_date || '',
+      genres: movie.genres,
+    };
+
+    await addMovieToUser(user.uid, tmdbMovie);
+    alert(`${movie.title} añadida a la colección`);
+  }
+
+  async function handleRemoveMovie() {
+    if (!user) return;
+
+    await removeMovieFromUser(user.uid, movie.id);
+    alert(`${movie.title} eliminada de la colección`);
+  }
+
+  useEffect(() => {
+    if (!user) return;
+
+    const movieRef = doc(db, 'users', user.uid, 'movies', movie.id.toString());
+
+    const unsubscribe = onSnapshot(movieRef, (docSnap) => {
+      setInCollection(docSnap.exists());
+    });
+
+    return () => unsubscribe();
+  }, [user, movie.id]);
 
   return (
     <div className="relative h-full flex flex-col lg:flex-row justify-center items-center px-4 gap-8">
@@ -39,12 +79,18 @@ export const MovieInfo = ({ movie, credits }: MovieInfoProps) => {
             priority
           />
         </div>
-        {user ? (
-          <button className="w-full p-2 bg-green-900/60 mt-2 rounded-sm cursor-pointer">
+        {!inCollection ? (
+          <button
+            onClick={() => handleAddMovie()}
+            className="w-full p-2 bg-green-900/60 hover:bg-green-800 transition-all duration-100 mt-2 rounded-sm cursor-pointer"
+          >
             Añadir a colección
           </button>
         ) : (
-          <button className="w-full p-2 bg-red-900/60 mt-2 rounded-sm cursor-pointer">
+          <button
+            onClick={() => handleRemoveMovie()}
+            className="w-full p-2 bg-red-900/60 hover:bg-red-800 transition-all duration-100 mt-2 rounded-sm cursor-pointer"
+          >
             Eliminar de colección
           </button>
         )}
