@@ -9,7 +9,7 @@ import {
 import { TmdbMovie } from '../types/tmdb';
 import { db } from './firebaseConfig';
 
-export type UserMovie = {
+export interface UserMovie {
   tmdbId: number;
   title: string;
   posterPath: string;
@@ -20,7 +20,7 @@ export type UserMovie = {
   favorite: boolean;
   addedAt: Timestamp | FieldValue;
   updatedAt: Timestamp | FieldValue;
-};
+}
 
 export async function addMovieToUser(uid: string, movie: TmdbMovie) {
   if (!uid) return;

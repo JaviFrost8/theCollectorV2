@@ -4,7 +4,7 @@ import { Credits, Genre, Movie, Person, TmdbMovie } from '@/app/types/tmdb';
 import { useContextAuth } from '@/context/AuthContext';
 import { db } from '@/app/firebase/firebaseConfig';
 import { formatRuntime } from '@/lib/formatRuntime';
-import { addDoc, collection, doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import Image from 'next/image';
 import { addMovieToUser, removeMovieFromUser } from '../firebase/movies';
 import { useEffect, useState } from 'react';

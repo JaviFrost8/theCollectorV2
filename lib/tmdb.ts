@@ -8,7 +8,7 @@ export async function getMovies(searchTerm = '') {
   const url =
     searchTerm.trim() !== ''
       ? `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(
-          searchTerm
+          searchTerm,
         )}&language=es-ES`
       : `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=es-ES&page=1`;
 
@@ -19,7 +19,6 @@ export async function getMovies(searchTerm = '') {
   }
 
   const data = await res.json();
-  console.log(data.results);
   return data.results;
 }
 
@@ -31,7 +30,7 @@ export async function getMovie(id: string) {
   }
 
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=es-ES`
+    `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=es-ES`,
   );
 
   if (!res.ok) {
@@ -39,7 +38,6 @@ export async function getMovie(id: string) {
   }
 
   const data = await res.json();
-  console.log(data);
   return data;
 }
 
@@ -51,7 +49,7 @@ export async function getMovieCredits(id: string) {
   }
 
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}&language=es-ES`
+    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}&language=es-ES`,
   );
 
   if (!res.ok) {
@@ -59,6 +57,5 @@ export async function getMovieCredits(id: string) {
   }
 
   const data = await res.json();
-  console.log(data);
   return data;
 }
