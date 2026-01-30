@@ -29,10 +29,7 @@ export const Navbar = () => {
       {!user ? (
         <ul className="flex gap-4">
           <li className="cursor-pointer" onClick={login}>
-            Login
-          </li>
-          <li>
-            <Link href={'/search'}>Buscar</Link>
+            Iniciar sesión
           </li>
         </ul>
       ) : (
@@ -50,7 +47,7 @@ export const Navbar = () => {
             <Link href={'/search'}>Buscar</Link>
           </li>
           <li onClick={logout}>
-            <button className="cursor-pointer">Logout</button>
+            <button className="cursor-pointer">Cerrar sesión</button>
           </li>
         </ul>
       )}

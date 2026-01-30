@@ -46,6 +46,11 @@ export async function addMovieToUser(uid: string, movie: TmdbMovie) {
 export async function removeMovieFromUser(uid: string, tmdbId: number) {
   if (!uid) return;
 
-  const movieRef = doc(db, 'users', uid, 'movies', tmdbId.toString());
-  await deleteDoc(movieRef);
+  const confirm = window.confirm(
+    '¿Seguro que quiere eliminar la película de la colección?',
+  );
+  if (confirm) {
+    const movieRef = doc(db, 'users', uid, 'movies', tmdbId.toString());
+    await deleteDoc(movieRef);
+  }
 }

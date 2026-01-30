@@ -28,7 +28,10 @@ export const MovieInfo = ({ movie, credits }: MovieInfoProps) => {
   const { user } = useContextAuth();
 
   async function handleAddMovie() {
-    if (!user) return;
+    if (!user) {
+      alert('Debes iniciar sesión para añadir una película');
+      return;
+    }
 
     const tmdbMovie: TmdbMovie = {
       id: movie.id,

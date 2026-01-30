@@ -11,6 +11,7 @@ import { createUserDocument } from '@/app/firebase/firestore';
 
 type AuthContextType = {
   user: User | null;
+  loading: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
 };
@@ -21,6 +22,7 @@ export function AuthProvider({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   async function login(): Promise<void> {
     await signInWithPopup(auth, googleProvider);
@@ -39,14 +41,14 @@ export function AuthProvider({
       if (firebaseUser) {
         await createUserDocument(firebaseUser);
       }
-      console.log(firebaseUser);
+      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
