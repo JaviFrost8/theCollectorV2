@@ -15,8 +15,11 @@ export interface UserMovie {
   posterPath: string;
   releaseDate: string;
   genres: string[];
-  status: 'No vista' | 'Vista';
-  rating: number | null;
+  status: 'Watched' | 'Not watched';
+  format: 'Bluray' | 'UHD 4K' | 'DVD' | null;
+  rating: number;
+  runtime: number;
+  price: number | null;
   favorite: boolean;
   addedAt: Timestamp | FieldValue;
   updatedAt: Timestamp | FieldValue;
@@ -33,8 +36,11 @@ export async function addMovieToUser(uid: string, movie: TmdbMovie) {
     posterPath: movie.poster_path,
     releaseDate: movie.release_date,
     genres: movie.genres.map((g) => g.name),
-    status: 'No vista',
-    rating: null,
+    status: 'Not watched',
+    format: null,
+    rating: movie.vote_average,
+    runtime: movie.runtime,
+    price: null,
     favorite: false,
     addedAt: serverTimestamp(),
     updatedAt: serverTimestamp(),

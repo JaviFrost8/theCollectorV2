@@ -1,8 +1,14 @@
 export function formatRuntime(minutes: number | null) {
-  if (!minutes) return '';
+  if (!minutes) return '-';
 
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
 
-  return hours > 0 ? `${hours}h ${mins}min` : `${mins}min`;
+  if (hours > 0 && mins > 0) {
+    return `${hours}h ${mins}min`;
+  } else if (hours > 0 && mins === 0) {
+    return `${hours}h`;
+  } else {
+    return `${mins}min`;
+  }
 }

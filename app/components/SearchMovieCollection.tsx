@@ -1,7 +1,9 @@
+import { OrderOption } from './CollectionContent';
+
 interface Props {
   inputText: string;
-  optionValue: string;
-  onSearchChange: (inputText: string, optionText: string) => void;
+  optionValue: 'title' | 'year';
+  onSearchChange: (inputText: string, optionText: 'title' | 'year') => void;
 }
 
 export const SearchMovieCollection = ({
@@ -21,8 +23,10 @@ export const SearchMovieCollection = ({
 
       <select
         value={optionValue}
-        onChange={(e) => onSearchChange(inputText, e.target.value)}
-        className="bg-[#232f48] p-3 rounded-md focus:outline-none"
+        onChange={(e) =>
+          onSearchChange(inputText, e.target.value as OrderOption)
+        }
+        className="bg-[#232f48] p-3 rounded-md focus:outline-none cursor-pointer"
         id="movies"
         name="movies"
       >

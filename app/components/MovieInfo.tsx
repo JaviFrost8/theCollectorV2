@@ -38,6 +38,8 @@ export const MovieInfo = ({ movie, credits }: MovieInfoProps) => {
       title: movie.title,
       poster_path: movie.poster_path || '',
       release_date: movie.release_date || '',
+      vote_average: movie.vote_average,
+      runtime: movie.runtime,
       genres: movie.genres,
     };
 
