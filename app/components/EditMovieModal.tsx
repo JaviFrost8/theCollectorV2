@@ -78,7 +78,7 @@ export default function EditMovieModal({ isOpen, onClose, movie, uid }: Props) {
               onChange={(e) => setPrice(e.target.value)}
               min={0}
               step={0.01}
-              placeholder="Ej: 14.99"
+              placeholder="Ej: 14,99"
             />
           </div>
           <div className="flex py-2 my-3 gap-3">

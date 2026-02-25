@@ -1,4 +1,4 @@
-import { formatRuntime } from '@/lib/formatRuntime';
+import { formatRuntime } from '@/app/utils/formatRuntime';
 import { UserMovie } from '../firebase/movies';
 
 export function calculateAverageRating(movies: UserMovie[]) {

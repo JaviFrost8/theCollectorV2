@@ -7,9 +7,10 @@ import {
   calculateDurationTotal,
   calculatePrices,
 } from './utils/movieStats';
+import GenreDonutChart from './components/GenreDonutChart';
 
 export default function Home() {
-  const { user } = useContextAuth();
+  const { user, genreStats } = useContextAuth();
   const { movies } = useUserMovies(user?.uid);
   const moviesWithoutPrice = movies.filter((movie) => movie.price === null);
 
@@ -47,8 +48,13 @@ export default function Home() {
         <span className="text-gray-400">Puntuación media</span>
         <span className="text-3xl">{calculateAverageRating(movies)}</span>
       </div>
-      <div className="flex justify-center bg-[#232F48] border border-[#48597e] col-span-4 p-3 rounded-md gap-1.5 min-h-[350]">
-        <span>Gráfica películas por género</span>
+      <div className="flex flex-col justify-center bg-[#232F48] border border-[#48597e] col-span-4 p-3 rounded-md gap-1.5 min-h-[350]">
+        <span className="text-gray-400">Géneros destacados</span>
+        {genreStats.length > 0 ? (
+          <GenreDonutChart data={genreStats} />
+        ) : (
+          <span>Sin datos</span>
+        )}
       </div>
       <div className="flex flex-col bg-[#232F48] border border-[#48597e] col-span-8 p-3 rounded-md gap-3">
         <h1 className="text-gray-400">Película de la semana</h1>

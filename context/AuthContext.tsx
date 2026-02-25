@@ -8,12 +8,14 @@ import {
 } from 'firebase/auth';
 import { auth, googleProvider } from '@/app/firebase/firebaseConfig';
 import { createUserDocument } from '@/app/firebase/firestore';
+import { getGenreStats } from '@/lib/stats';
 
 type AuthContextType = {
   user: User | null;
   loading: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
+  genreStats: { name: string; count: number }[];
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -23,6 +25,9 @@ export function AuthProvider({
 }: Readonly<{ children: React.ReactNode }>) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [genreStats, setGenreStats] = useState<
+    { name: string; count: number }[]
+  >([]);
 
   async function login(): Promise<void> {
     await signInWithPopup(auth, googleProvider);
@@ -47,8 +52,15 @@ export function AuthProvider({
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (!user?.uid) return;
+    getGenreStats(user.uid).then((stats) => {
+      setGenreStats(stats.slice(0, 5));
+    });
+  }, [user?.uid]);
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, genreStats }}>
       {children}
     </AuthContext.Provider>
   );

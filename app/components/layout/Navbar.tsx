@@ -41,7 +41,7 @@ export const Navbar = () => {
             <Link href={'/collection'}>Mi Colección</Link>
           </li>
           <li>
-            <Link href={'/favorites'}>Favoritos</Link>
+            <Link href={'/random'}>Que Veo</Link>
           </li>
           <li>
             <Link href={'/search'}>Buscar</Link>
