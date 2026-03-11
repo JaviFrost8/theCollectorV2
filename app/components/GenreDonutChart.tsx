@@ -15,7 +15,7 @@ export default function GenreDonutChart({
   }));
 
   return (
-    <ResponsiveContainer width="100%" height={280}>
+    <ResponsiveContainer width="100%" height="100%">
       <PieChart>
         <Pie
           data={coloredData}

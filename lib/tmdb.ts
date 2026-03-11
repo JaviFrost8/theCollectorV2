@@ -1,3 +1,5 @@
+import { getWeekKey } from './getWeekKey';
+
 export async function getMovies(searchTerm = '') {
   const apiKey = process.env.TMDB_API_KEY;
 
@@ -58,4 +60,25 @@ export async function getMovieCredits(id: string) {
 
   const data = await res.json();
   return data;
+}
+
+export async function fetchWeeklyMovie() {
+  const apiKey = process.env.TMDB_API_KEY;
+
+  if (!apiKey) {
+    throw new Error('TMDB API key no definida');
+  }
+
+  const res = await fetch(
+    `https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`,
+  );
+  const data = await res.json();
+  const movie = data.results[0];
+
+  const detailsRes = await fetch(
+    `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}&language=es-ES`,
+  );
+
+  const detailsMovie = detailsRes.json();
+  return detailsMovie;
 }

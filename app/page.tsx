@@ -8,6 +8,7 @@ import {
   calculatePrices,
 } from './utils/movieStats';
 import GenreDonutChart from './components/GenreDonutChart';
+import { WeeklyMovie } from './components/WeeklyMovie';
 
 export default function Home() {
   const { user, genreStats } = useContextAuth();
@@ -58,10 +59,7 @@ export default function Home() {
       </div>
       <div className="flex flex-col bg-[#232F48] border border-[#48597e] col-span-8 p-3 rounded-md gap-3">
         <h1 className="text-gray-400">Película de la semana</h1>
-        <div className="flex">
-          <div className="w-[30%]">Imagen</div>
-          <div className="w-[70%]">Info</div>
-        </div>
+        <WeeklyMovie />
       </div>
       <div className="flex flex-col bg-[#232F48] border border-[#48597e] col-span-12 p-3 rounded-md gap-3 min-h-[350]">
         <h1 className="col-span-12 text-xl text-gray-400">Últimas añadidas</h1>

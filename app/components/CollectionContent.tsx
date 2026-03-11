@@ -6,6 +6,7 @@ import { removeMovieFromUser, UserMovie } from '../firebase/movies';
 import { SearchMovieCollection } from './SearchMovieCollection';
 import { useMemo, useState } from 'react';
 import EditMovieModal from './EditMovieModal';
+import { fetchWeeklyMovie } from '@/lib/tmdb';
 
 interface Props {
   uid: string;
