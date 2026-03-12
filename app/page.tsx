@@ -9,6 +9,7 @@ import {
 } from './utils/movieStats';
 import GenreDonutChart from './components/GenreDonutChart';
 import { WeeklyMovie } from './components/WeeklyMovie';
+import { RecentMovies } from './components/RecentMovies';
 
 export default function Home() {
   const { user, genreStats } = useContextAuth();
@@ -62,8 +63,10 @@ export default function Home() {
         <WeeklyMovie />
       </div>
       <div className="flex flex-col bg-[#232F48] border border-[#48597e] col-span-12 p-3 rounded-md gap-3 min-h-[350]">
-        <h1 className="col-span-12 text-xl text-gray-400">Últimas añadidas</h1>
-        <div>Todas las peliculas añadidas recientemente</div>
+        <h1 className="mb-3 col-span-12 text-xl text-gray-400">
+          Últimas añadidas
+        </h1>
+        <RecentMovies uid={user?.uid} />
       </div>
     </div>
   );

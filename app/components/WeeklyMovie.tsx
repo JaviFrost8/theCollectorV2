@@ -36,7 +36,7 @@ export function WeeklyMovie() {
   return (
     <>
       <div className="flex gap-4">
-        <div className="w-[20%] min-w-[150] min-h-[225]">
+        <div className="w-[20%] min-w-[150] min-h-[225] mr-4">
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt={movie.title}
@@ -58,11 +58,9 @@ export function WeeklyMovie() {
             ))}
           </div>
           <p className="mt-3">{movie.overview}</p>
-          <Link href={`/movie/${movie.id}`}>
-            <button className="cursor-pointer bg-white text-black py-2 px-3 rounded-md mt-3 font-semibold text-sm">
-              ▶ Ver detalles
-            </button>
-          </Link>
+          <button className="cursor-pointer bg-white text-black py-2 px-3 rounded-md mt-3 font-semibold text-sm hover:text-blue-700 transition-all duration-300">
+            <Link href={`/movie/${movie.id}`}>▶ Ver detalles</Link>
+          </button>
         </div>
       </div>
     </>
