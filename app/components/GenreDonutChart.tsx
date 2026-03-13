@@ -47,7 +47,7 @@ export default function GenreDonutChart({
             }}
             labelStyle={{ color: '#CBD5F5' }}
           />
-          <Legend verticalAlign="bottom" height={30} iconType="circle" />
+          <Legend verticalAlign="bottom" height={60} iconType="circle" />
         </Pie>
       </PieChart>
     </ResponsiveContainer>

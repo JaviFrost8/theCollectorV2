@@ -7,7 +7,7 @@ export const Navbar = () => {
   const { login, logout, user } = useContextAuth();
 
   return (
-    <nav className="flex w-full justify-between px-20 py-5 border-b border-[#232f48]">
+    <nav className="flex w-full justify-between flex-col md:flex-row px-20 py-5 border-b border-[#232f48]">
       <Link href={user ? '/' : '/search'}>
         <div className="flex">
           <svg
@@ -33,7 +33,7 @@ export const Navbar = () => {
           </li>
         </ul>
       ) : (
-        <ul className="flex gap-4">
+        <ul className="flex flex-col md:flex-row gap-4">
           <li>
             <Link href={'/'}>Dashboard</Link>
           </li>
