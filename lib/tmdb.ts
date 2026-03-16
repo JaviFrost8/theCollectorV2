@@ -73,12 +73,13 @@ export async function fetchWeeklyMovie() {
     `https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`,
   );
   const data = await res.json();
-  const movie = data.results[0];
+  const randomIndex = Math.floor(Math.random() * data.results.length);
+  const movie = data.results[randomIndex];
 
   const detailsRes = await fetch(
     `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}&language=es-ES`,
   );
 
-  const detailsMovie = detailsRes.json();
+  const detailsMovie = await detailsRes.json();
   return detailsMovie;
 }

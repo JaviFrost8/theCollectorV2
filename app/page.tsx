@@ -17,8 +17,8 @@ export default function Home() {
   const moviesWithoutPrice = movies.filter((movie) => movie.price === null);
 
   return (
-    <div className="grid grid-cols-12 m-4 md:m-12 gap-4">
-      <div className="flex flex-col justify-center bg-[#232F48] border border-[#48597e] col-span-12 md:col-span-3 p-3 rounded-md gap-1.5">
+    <div className="grid grid-cols-12 m-4 lg:m-12 gap-4 select-none">
+      <div className="flex flex-col justify-center bg-[#232F48] border border-[#48597e] col-span-12 lg:col-span-3 p-3 rounded-md gap-1.5">
         <span className="text-gray-400">Total de películas</span>
         <div className="flex gap-2">
           <span className="text-3xl">{movies?.length ?? 0}</span>{' '}
@@ -27,7 +27,7 @@ export default function Home() {
           </span>
         </div>
       </div>
-      <div className="flex flex-col justify-center bg-[#232F48] border border-[#48597e] col-span-12 md:col-span-3 p-3 rounded-md gap-1.5">
+      <div className="flex flex-col justify-center bg-[#232F48] border border-[#48597e] col-span-12 lg:col-span-3 p-3 rounded-md gap-1.5">
         <span className="text-gray-400">Valor estimado</span>
         <div>
           <span className="text-3xl">
@@ -42,15 +42,15 @@ export default function Home() {
           )}
         </div>
       </div>
-      <div className="flex flex-col justify-center bg-[#232F48] border border-[#48597e] col-span-12 md:col-span-3 p-3 rounded-md gap-1.5">
+      <div className="flex flex-col justify-center bg-[#232F48] border border-[#48597e] col-span-12 lg:col-span-3 p-3 rounded-md gap-1.5">
         <span className="text-gray-400">Duración total</span>
         <span className="text-3xl">{calculateDurationTotal(movies)}</span>
       </div>
-      <div className="flex flex-col justify-center bg-[#232F48] border border-[#48597e] col-span-12 md:col-span-3 p-3 rounded-md gap-1.5">
+      <div className="flex flex-col justify-center bg-[#232F48] border border-[#48597e] col-span-12 lg:col-span-3 p-3 rounded-md gap-1.5">
         <span className="text-gray-400">Puntuación media</span>
         <span className="text-3xl">{calculateAverageRating(movies)}</span>
       </div>
-      <div className="flex flex-col justify-center bg-[#232F48] border border-[#48597e] col-span-12 md:col-span-4 p-3 rounded-md gap-1.5 min-h-[350]">
+      <div className="flex flex-col justify-center bg-[#232F48] border border-[#48597e] col-span-12 lg:col-span-4 p-3 rounded-md gap-1.5 min-h-[350]">
         <span className="text-gray-400">Géneros destacados</span>
         {genreStats.length > 0 ? (
           <GenreDonutChart data={genreStats} />
@@ -58,7 +58,7 @@ export default function Home() {
           <span>Sin datos</span>
         )}
       </div>
-      <div className="flex flex-col bg-[#232F48] border border-[#48597e] col-span-12 md:col-span-8 p-3 rounded-md gap-3">
+      <div className="flex flex-col bg-[#232F48] border border-[#48597e] col-span-12 lg:col-span-8 p-3 rounded-md gap-3">
         <h1 className="text-gray-400">Película de la semana</h1>
         <WeeklyMovie />
       </div>

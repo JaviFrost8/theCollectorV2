@@ -103,7 +103,7 @@ export const MovieInfo = ({ movie, credits }: MovieInfoProps) => {
 
       {/* Sección derecha: Información */}
       <div className="flex flex-col max-w-2xl lg:min-h-[800] lg:translate-y-[43.3%]">
-        {/* Título y rating en misma línea */}
+        {/* Título y rating*/}
         <div className="flex flex-col lg:flex-row lg:items-center gap-4 mb-6">
           <h1 className="text-4xl lg:text-5xl font-bold text-white">
             {movie.title}

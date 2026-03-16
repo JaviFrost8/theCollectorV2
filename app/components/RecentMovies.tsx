@@ -29,7 +29,7 @@ export const RecentMovies = ({ uid }: Props) => {
               alt={movie.title}
               src={`https://image.tmdb.org/t/p/w500${movie.posterPath}`}
               fill
-              className="object-cover rounded-md"
+              className="object-cover rounded-md border-2 border-[#b2b2b3]"
             />
           </div>
           <div className="flex flex-col mt-2">

@@ -1,7 +1,7 @@
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { getWeekKey } from './getWeekKey';
 import { db } from '@/app/firebase/firebaseConfig';
 import { fetchWeeklyMovie } from './tmdb';
+import { getWeekKey } from './getWeekKey';
 
 export async function weeklyMovie() {
   const weekKey = getWeekKey();

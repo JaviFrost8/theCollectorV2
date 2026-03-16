@@ -40,7 +40,7 @@ export function WeeklyMovie() {
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt={movie.title}
-            className=" w-[80%] md:w-full h-full object-cover rounded-md"
+            className=" w-[80%] md:w-full h-full border-2 border-[#48597e] object-cover rounded-md"
           />
         </div>
 
