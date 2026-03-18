@@ -47,7 +47,7 @@ export function WeeklyMovie() {
         <div className="flex flex-col items-center md:items-start w-full md:w-[70%] gap-2 justify-center">
           <h2 className="text-xl md:text-3xl mb-2">{movie.title}</h2>
 
-          <div className="flex flex-col md:flex-row gap-1">
+          <div className="flex flex-wrap md:flex-row gap-1">
             {movie.genres.map((genre: Genre) => (
               <span
                 className="bg-black/30 text-center px-2 md:px-3 rounded-md text-sm"

@@ -20,19 +20,28 @@ export default async function MoviePage({ params }: MoviePageProps) {
     : '';
 
   return (
-    <div className="relative w-full h-screen">
-      {/* Fondo */}
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-40"
-        style={{
-          backgroundImage: `url(${backdropMovie})`,
-          clipPath: 'inset(0 0 50% 0)',
-          WebkitClipPath: 'inset(0 0 50% 0)',
-        }}
-      />
+    <div className="relative w-full min-h-screen overflow-hidden">
+      {/* 🎬 Fondo */}
+      {backdropMovie && (
+        <div className="absolute inset-0">
+          {/* Imagen */}
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${backdropMovie})` }}
+          />
 
-      {/* Contenido principal*/}
-      <MovieInfo movie={movie} credits={credits} />
+          {/* Oscurecer base */}
+          <div className="absolute inset-0 bg-black/50" />
+
+          {/* Gradiente suave (sin cortes) */}
+          <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/60 to-black" />
+        </div>
+      )}
+
+      {/* 🧠 Contenido */}
+      <div className="relative z-10">
+        <MovieInfo movie={movie} credits={credits} />
+      </div>
     </div>
   );
 }

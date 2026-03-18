@@ -67,16 +67,24 @@ export const Navbar = () => {
         ) : (
           <>
             <li>
-              <Link href={'/'}>Dashboard</Link>
+              <Link href={'/'} onClick={() => setIsOpen(false)}>
+                Dashboard
+              </Link>
             </li>
             <li>
-              <Link href={'/collection'}>Mi Colección</Link>
+              <Link href={'/collection'} onClick={() => setIsOpen(false)}>
+                Mi Colección
+              </Link>
             </li>
             <li>
-              <Link href={'/random'}>Que Veo</Link>
+              <Link href={'/random'} onClick={() => setIsOpen(false)}>
+                Que Veo
+              </Link>
             </li>
             <li>
-              <Link href={'/search'}>Buscar</Link>
+              <Link href={'/search'} onClick={() => setIsOpen(false)}>
+                Buscar
+              </Link>
             </li>
             <li>
               <button onClick={logout} className="cursor-pointer">

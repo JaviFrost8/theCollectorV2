@@ -105,39 +105,45 @@ export const MovieInfo = ({ movie, credits }: MovieInfoProps) => {
       {/* 🧠 INFO */}
       <div className="flex flex-col max-w-2xl w-full lg:mt-[340] lg:translate-y-7">
         {/* 🎯 Título + Rating */}
-        <div className="flex flex-col items-center sm:items-start sm:flex-row mt-8 lg:flex-row lg:items-center gap-4 mb-6">
+        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-4 mb-6">
           <h1 className="text-3xl text-center sm:text-start sm:text-4xl lg:text-5xl font-bold text-white">
             {movie.title}
           </h1>
 
-          <div className="flex items-center gap-2 bg-black/30 px-4 py-2 rounded-lg">
+          <div className="flex items-center gap-2 bg-yellow-400/10 border border-yellow-400/30 px-3 py-1.5 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
-              fill="yellow"
+              fill="#facc15"
             >
               <path d="M8.243 7.34l-6.38 .925a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5a1 1 0 0 0 -.555 -1.705l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0z" />
             </svg>
-            <span className="text-white text-lg sm:text-xl font-semibold">
+
+            <span className="text-white font-semibold">
               {movie.vote_average.toFixed(1)}
             </span>
+
+            <span className="text-xs text-gray-400">/10</span>
           </div>
         </div>
 
         {/* 🏷️ Géneros */}
         <div className="mb-3 justify-center sm:justify-start flex flex-wrap gap-2">
           {movie.genres.map((genre: Genre) => (
-            <span className="bg-black/30 p-1 rounded-sm" key={genre.id}>
+            <span
+              className="bg-[#1f2a44] text-blue-300 px-2 py-1 rounded-md text-sm"
+              key={genre.id}
+            >
               {genre.name}
             </span>
           ))}
-          <span className="bg-black/30 p-1 rounded-sm">
-            {movie.release_date.slice(0, 4)}
+          <span className="bg-white/10 text-gray-300 px-2 py-1 rounded-md text-sm">
+            📆 {movie.release_date.slice(0, 4)}
           </span>
-          <span className="bg-black/30 p-1 rounded-sm">
-            {formatRuntime(movie.runtime)}
+          <span className="bg-white/10 text-gray-300 px-2 py-1 rounded-md text-sm">
+            ⏱ {formatRuntime(movie.runtime)}
           </span>
         </div>
 
