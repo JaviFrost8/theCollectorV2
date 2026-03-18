@@ -9,6 +9,7 @@ import {
 import { auth, googleProvider } from '@/app/firebase/firebaseConfig';
 import { createUserDocument } from '@/app/firebase/firestore';
 import { getGenreStats } from '@/lib/stats';
+import { useRouter } from 'next/navigation';
 
 type AuthContextType = {
   user: User | null;
@@ -28,6 +29,7 @@ export function AuthProvider({
   const [genreStats, setGenreStats] = useState<
     { name: string; count: number }[]
   >([]);
+  const router = useRouter();
 
   async function login(): Promise<void> {
     await signInWithPopup(auth, googleProvider);
@@ -37,6 +39,7 @@ export function AuthProvider({
     const confirm = window.confirm('¿Desea cerrar la sesión?');
     if (confirm) {
       await signOut(auth);
+      router.push('/search');
     }
   }
 

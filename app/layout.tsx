@@ -18,9 +18,7 @@ export default function RootLayout({
       <body className="flex flex-col h-screen bg-background">
         <AuthProvider>
           <Navbar />
-          <main className="flex-1 overflow-y-auto w-full md:px-12">
-            {children}
-          </main>
+          <main className="flex-1 overflow-y-auto w-full">{children}</main>
         </AuthProvider>
       </body>
     </html>
