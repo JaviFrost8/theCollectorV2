@@ -12,7 +12,7 @@ export const SearchMovieCollection = ({
   optionValue,
 }: Props) => {
   return (
-    <form className="flex justify-between w-full gap-3 mt-6">
+    <form className="flex flex-col sm:flex-row sm:justify-between w-full gap-3 mt-6">
       <input
         type="text"
         value={inputText}

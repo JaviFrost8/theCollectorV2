@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRecentMovies } from '../hooks/useRecentMovies';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface Props {
   uid: string | undefined;
@@ -24,14 +25,16 @@ export const RecentMovies = ({ uid }: Props) => {
     <div className="flex flex-wrap justify-evenly gap-4">
       {movies.map((movie) => (
         <div key={movie.tmdbId} className="relative aspect-2/3 w-[220] h-[370]">
-          <div className="relative w-full h-[310]">
-            <Image
-              alt={movie.title}
-              src={`https://image.tmdb.org/t/p/w500${movie.posterPath}`}
-              fill
-              className="object-cover rounded-md border-2 border-[#b2b2b3]"
-            />
-          </div>
+          <Link href={`/movie/${movie.tmdbId}`} key={movie.tmdbId}>
+            <div className="relative w-full h-[310]">
+              <Image
+                alt={movie.title}
+                src={`https://image.tmdb.org/t/p/w500${movie.posterPath}`}
+                fill
+                className="object-cover rounded-md border-2 border-[#b2b2b3]"
+              />
+            </div>
+          </Link>
           <div className="flex flex-col mt-2">
             <span>{movie.title}</span>
             <span className="text-gray-500">

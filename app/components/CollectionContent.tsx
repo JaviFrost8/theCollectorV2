@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useUserMovies } from '../hooks/useUserMovies';
 import { removeMovieFromUser, UserMovie } from '../firebase/movies';
 import { SearchMovieCollection } from './SearchMovieCollection';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import EditMovieModal from './EditMovieModal';
 import { fetchWeeklyMovie } from '@/lib/tmdb';
 
@@ -21,6 +21,10 @@ export const CollectionContent = ({ uid }: Props) => {
   const [inputText, setInputText] = useState<string>('');
   const [optionValue, setOptionValue] = useState<OrderOption>('title');
 
+  // PAGINACIÓN
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const moviesPerPage = 24;
+
   const moviesProcessed = useMemo(() => {
     if (loading) return [];
 
@@ -30,14 +34,31 @@ export const CollectionContent = ({ uid }: Props) => {
       movie.title.toLowerCase().includes(inputText.toLowerCase().trim()),
     );
 
-    return [...filtered].sort((a, b) => {
+    const sorted = [...filtered].sort((a, b) => {
       if (optionValue === 'year') {
         return getYear(b.releaseDate) - getYear(a.releaseDate);
       }
 
       return a.title.localeCompare(b.title);
     });
-  }, [movies, inputText, optionValue, loading]);
+
+    const startIndex = (currentPage - 1) * moviesPerPage;
+    return sorted.slice(startIndex, startIndex + moviesPerPage);
+  }, [movies, inputText, optionValue, loading, currentPage]);
+
+  const totalPages = Math.ceil(
+    movies.filter((movie) =>
+      movie.title.toLowerCase().includes(inputText.toLowerCase().trim()),
+    ).length / moviesPerPage,
+  );
+
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [currentPage]);
 
   if (loading) {
     return <p className="flex justify-center">Cargando colección...</p>;
@@ -52,6 +73,7 @@ export const CollectionContent = ({ uid }: Props) => {
   function onSearchChange(searchText: string, option: OrderOption) {
     setInputText(searchText);
     setOptionValue(option);
+    setCurrentPage(1);
   }
 
   return (
@@ -69,7 +91,7 @@ export const CollectionContent = ({ uid }: Props) => {
             ? `Gestionando ${movies.length} títulos de tu filmoteca`
             : ''}
         </h2>
-        <div className="border-b border-[#232f48] mt-4"></div>
+        <div ref={listRef} className="border-b border-[#232f48] mt-4"></div>
 
         <SearchMovieCollection
           inputText={inputText}
@@ -78,11 +100,14 @@ export const CollectionContent = ({ uid }: Props) => {
         />
       </div>
       {/*Aquí empieza el wrap para las películas*/}
-      <div className="flex flex-wrap justify-center gap-5 mt-6">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-5 mt-6">
         {moviesProcessed.map((movie: UserMovie) => (
-          <div key={movie.tmdbId} className="min-w-[200]">
+          <div
+            key={movie.tmdbId}
+            className="flex gap-3 sm:block sm:min-w-[200]"
+          >
             <Link href={`/movie/${movie.tmdbId}`}>
-              <div className="relative min-h-[300] w-full overflow-hidden">
+              <div className="relative w-24 h-36 sm:w-full sm:h-[300] overflow-hidden">
                 {movie.price === null ? (
                   <span className="absolute bottom-1 left-1 flex items-center p-1 z-1 text-sm bg-amber-600 rounded-md text-black font-bold">
                     <svg
@@ -117,7 +142,7 @@ export const CollectionContent = ({ uid }: Props) => {
                 />
               </div>
             </Link>
-            <div className="flex flex-col mt-1.5">
+            <div className="flex flex-col justify-baseline h-1/2 sm:h-auto flex-1 py-1">
               <p>
                 {movie.title.length > 25
                   ? movie.title.slice(0, 25) + '...'
@@ -127,9 +152,9 @@ export const CollectionContent = ({ uid }: Props) => {
                 <span className="text-gray-400">
                   {movie.releaseDate.slice(0, 4)}
                 </span>
-                <div className="flex">
+                <div className="flex items-center gap-1">
                   <span
-                    className="cursor-pointer"
+                    className="cursor-pointer p-1 rounded-md hover:bg-gray-800 active:scale-95 transition"
                     onClick={() => {
                       setSelectedMovie(movie);
                       setIsModalOpen(true);
@@ -141,7 +166,7 @@ export const CollectionContent = ({ uid }: Props) => {
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="size-5"
+                      className="w-5 h-5"
                     >
                       <path
                         strokeLinecap="round"
@@ -151,7 +176,7 @@ export const CollectionContent = ({ uid }: Props) => {
                     </svg>
                   </span>
                   <span
-                    className="cursor-pointer"
+                    className="cursor-pointer p-1 rounded-md hover:bg-gray-800 active:scale-95 transition"
                     onClick={() => removeMovieFromUser(uid, movie.tmdbId)}
                   >
                     <svg
@@ -160,7 +185,7 @@ export const CollectionContent = ({ uid }: Props) => {
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className="size-5"
+                      className="w-5 h-5"
                     >
                       <path
                         strokeLinecap="round"
@@ -175,6 +200,29 @@ export const CollectionContent = ({ uid }: Props) => {
           </div>
         ))}
       </div>
+
+      {/*PAGINACIÓN*/}
+      {totalPages > 1 && (
+        <div className="flex justify-center gap-4 mt-6">
+          <button
+            className="px-3 py-1 rounded bg-gray-700 text-white disabled:opacity-50 cursor-pointer"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => prev - 1)}
+          >
+            Anterior
+          </button>
+          <span className="flex items-center">
+            {currentPage} / {totalPages}
+          </span>
+          <button
+            className="px-3 py-1 rounded bg-gray-700 text-white disabled:opacity-50 cursor-pointer"
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((prev) => prev + 1)}
+          >
+            Siguiente
+          </button>
+        </div>
+      )}
     </div>
   );
 };

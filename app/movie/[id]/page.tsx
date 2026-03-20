@@ -38,7 +38,6 @@ export default async function MoviePage({ params }: MoviePageProps) {
         </div>
       )}
 
-      {/* 🧠 Contenido */}
       <div className="relative z-10">
         <MovieInfo movie={movie} credits={credits} />
       </div>
