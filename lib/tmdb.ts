@@ -69,10 +69,14 @@ export async function fetchWeeklyMovie() {
     throw new Error('TMDB API key no definida');
   }
 
+  const randomPage = Math.floor(Math.random() * 20) + 1;
+
   const res = await fetch(
-    `https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`,
+    `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=es-ES&sort_by=vote_average.desc&vote_count.gte=1000&page=${randomPage}`,
   );
+
   const data = await res.json();
+
   const randomIndex = Math.floor(Math.random() * data.results.length);
   const movie = data.results[randomIndex];
 
