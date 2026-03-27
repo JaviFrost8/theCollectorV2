@@ -87,3 +87,58 @@ export async function fetchWeeklyMovie() {
   const detailsMovie = await detailsRes.json();
   return detailsMovie;
 }
+
+export async function fetchSearchMovie(
+  genre: number | null,
+  year: number | null,
+  rating: number | null,
+) {
+  const apiKey = process.env.TMDB_API_KEY;
+  if (!apiKey) throw new Error('TMDB API key no definida');
+
+  const url = new URL('https://api.themoviedb.org/3/discover/movie');
+  url.searchParams.append('api_key', apiKey);
+  url.searchParams.append('language', 'es-ES');
+  url.searchParams.append('vote_count.gte', '20'); // mínimo 20 votos
+  url.searchParams.append('sort_by', 'popularity.desc');
+
+  if (genre !== null) url.searchParams.append('with_genres', genre.toString());
+  if (year !== null) {
+    const startYear = year;
+    const endYear = year + 9;
+
+    url.searchParams.append('primary_release_date.gte', `${startYear}-01-01`);
+    url.searchParams.append('primary_release_date.lte', `${endYear}-12-31`);
+  }
+
+  if (rating !== null)
+    url.searchParams.append('vote_average.gte', rating.toString());
+
+  const randomPage = Math.floor(Math.random() * 5) + 1;
+  url.searchParams.append('page', randomPage.toString());
+
+  const res = await fetch(url.toString());
+  if (!res.ok) throw new Error('Error al hacer fetch a TMDB');
+
+  const data = await res.json();
+
+  // Si no hay resultados en esta página, intentar con la página 1
+  const results = data.results && data.results.length > 0 ? data.results : null;
+
+  if (!results) {
+    url.searchParams.set('page', '1');
+    const fallbackRes = await fetch(url.toString());
+    const fallbackData = await fallbackRes.json();
+    if (!fallbackData.results || fallbackData.results.length === 0) {
+      // Ya no hay resultados en ninguna página, devolver mensaje en lugar de error
+      return { error: 'No se encontraron películas con esos filtros' };
+    }
+    const fallbackIndex = Math.floor(
+      Math.random() * fallbackData.results.length,
+    );
+    return fallbackData.results[fallbackIndex];
+  }
+
+  const randomIndex = Math.floor(Math.random() * results.length);
+  return results[randomIndex];
+}
