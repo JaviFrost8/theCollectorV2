@@ -1,4 +1,4 @@
-import { fetchSearchMovie } from '@/lib/tmdb';
+import { fetchRandomMovie } from '@/lib/tmdb';
 import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {
@@ -14,7 +14,7 @@ export async function GET(req: Request) {
       ? Number(searchParams.get('rating'))
       : null;
 
-    const movie = await fetchSearchMovie(genre, year, rating);
+    const movie = await fetchRandomMovie(genre, year, rating);
 
     return NextResponse.json(movie);
   } catch (err) {

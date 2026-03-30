@@ -10,6 +10,7 @@ import {
 import GenreDonutChart from './components/GenreDonutChart';
 import { WeeklyMovie } from './components/WeeklyMovie';
 import { RecentMovies } from './components/RecentMovies';
+import { countMoviesThisMonth } from './utils/countMoviesThisMonth';
 
 export default function Home() {
   const { user, genreStats } = useContextAuth();
@@ -23,7 +24,7 @@ export default function Home() {
         <div className="flex gap-2">
           <span className="text-3xl">{movies?.length ?? 0}</span>{' '}
           <span className="flex items-end pb-1 text-green-600 text-sm">
-            +12 este mes
+            +{countMoviesThisMonth(movies)} este mes
           </span>
         </div>
       </div>

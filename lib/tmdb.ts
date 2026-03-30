@@ -88,7 +88,7 @@ export async function fetchWeeklyMovie() {
   return detailsMovie;
 }
 
-export async function fetchSearchMovie(
+export async function fetchRandomMovie(
   genre: number | null,
   year: number | null,
   rating: number | null,
@@ -96,49 +96,81 @@ export async function fetchSearchMovie(
   const apiKey = process.env.TMDB_API_KEY;
   if (!apiKey) throw new Error('TMDB API key no definida');
 
-  const url = new URL('https://api.themoviedb.org/3/discover/movie');
-  url.searchParams.append('api_key', apiKey);
-  url.searchParams.append('language', 'es-ES');
-  url.searchParams.append('vote_count.gte', '20'); // mínimo 20 votos
-  url.searchParams.append('sort_by', 'popularity.desc');
+  const baseUrl = 'https://api.themoviedb.org/3/discover/movie';
 
-  if (genre !== null) url.searchParams.append('with_genres', genre.toString());
-  if (year !== null) {
-    const startYear = year;
-    const endYear = year + 9;
+  const buildUrl = () => {
+    const url = new URL(baseUrl);
 
-    url.searchParams.append('primary_release_date.gte', `${startYear}-01-01`);
-    url.searchParams.append('primary_release_date.lte', `${endYear}-12-31`);
+    url.searchParams.append('api_key', apiKey);
+    url.searchParams.append('language', 'es-ES');
+    url.searchParams.append('vote_count.gte', '5');
+    url.searchParams.append('sort_by', 'popularity.desc');
+
+    if (genre !== null)
+      url.searchParams.append('with_genres', genre.toString());
+
+    if (year !== null) {
+      const startYear = year;
+      const endYear = year + 9;
+
+      url.searchParams.append('primary_release_date.gte', `${startYear}-01-01`);
+      url.searchParams.append('primary_release_date.lte', `${endYear}-12-31`);
+    }
+
+    if (rating !== null)
+      url.searchParams.append('vote_average.gte', rating.toString());
+
+    return url;
+  };
+
+  // 1. Primera llamada para saber cuántas páginas hay
+  const firstUrl = buildUrl();
+  firstUrl.searchParams.append('page', '1');
+
+  const firstRes = await fetch(firstUrl.toString());
+  if (!firstRes.ok) throw new Error('Error al hacer fetch a TMDB');
+
+  const firstData = await firstRes.json();
+
+  if (!firstData.results || firstData.results.length === 0) {
+    return { error: 'No se encontraron películas con esos filtros' };
   }
 
-  if (rating !== null)
-    url.searchParams.append('vote_average.gte', rating.toString());
+  // 2. Elegir página aleatoria
+  const totalPages = Math.min(firstData.total_pages, 500);
+  const randomPage = Math.floor(Math.random() * totalPages) + 1;
 
-  const randomPage = Math.floor(Math.random() * 5) + 1;
-  url.searchParams.append('page', randomPage.toString());
+  const randomUrl = buildUrl();
+  randomUrl.searchParams.append('page', randomPage.toString());
 
-  const res = await fetch(url.toString());
+  const res = await fetch(randomUrl.toString());
   if (!res.ok) throw new Error('Error al hacer fetch a TMDB');
 
   const data = await res.json();
 
-  // Si no hay resultados en esta página, intentar con la página 1
-  const results = data.results && data.results.length > 0 ? data.results : null;
+  let results = data.results && data.results.length > 0 ? data.results : null;
 
+  // 3. Fallback si la página aleatoria viene vacía
   if (!results) {
-    url.searchParams.set('page', '1');
-    const fallbackRes = await fetch(url.toString());
+    const fallbackUrl = buildUrl();
+    fallbackUrl.searchParams.append('page', '1');
+
+    const fallbackRes = await fetch(fallbackUrl.toString());
     const fallbackData = await fallbackRes.json();
+
     if (!fallbackData.results || fallbackData.results.length === 0) {
-      // Ya no hay resultados en ninguna página, devolver mensaje en lugar de error
       return { error: 'No se encontraron películas con esos filtros' };
     }
+
     const fallbackIndex = Math.floor(
       Math.random() * fallbackData.results.length,
     );
+
     return fallbackData.results[fallbackIndex];
   }
 
+  // 4. Random dentro de la página
   const randomIndex = Math.floor(Math.random() * results.length);
+
   return results[randomIndex];
 }
