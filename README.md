@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎬 The Collector — Gestor Personal de Películas
 
-## Getting Started
+Aplicación web full-stack diseñada para gestionar colecciones personales de películas, descubrir contenido y mejorar la experiencia de decisión del usuario mediante recomendaciones dinámicas.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌐 Demo en vivo
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+👉 https://tu-app.vercel.app  
+_(Desplegado en Vercel)_
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧭 Descripción
 
-## Learn More
+**The Collector** es una aplicación centrada en el usuario que permite crear, organizar y explorar una biblioteca personal de películas.
 
-To learn more about Next.js, take a look at the following resources:
+El proyecto nace con el objetivo de resolver un problema común:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> _Tengo una colección bastante extensa y no se si esa película la tengo ya en la colección_
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Combina gestión de datos personalizada con mecanismos de recomendación simples pero efectivos.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎞️ Imagenes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+![Dashboard con datos de la colección](./public/dashboard.png)
+![Películas de la colección individual de cada usuario](./public/coleccion.png)
+![Buscador para añadir películas a la colección](./public/buscador.png)
+![Editor para añadir precio a cada película](./public/editor.png)
+
+## ✨ Funcionalidades principales
+
+### 🔐 Autenticación segura
+
+- Registro e inicio de sesión con Firebase Authentication
+- Aislamiento de datos por usuario
+
+### 🎞️ Gestión de colección
+
+- Añadir, visualizar y organizar películas
+- Persistencia en tiempo real con Firestore
+
+### 🎲 Recomendador aleatorio
+
+- Selección dinámica de películas para descubrir nuevas películas.
+- Mejora de engagement y toma de decisiones
+
+### 🔍 Búsqueda de películas
+
+- Exploración de películas
+- Integración directa con la colección
+
+### 📊 Dashboard
+
+- Información detallada de la colección
+- Acceso rápido a funcionalidades clave
+
+---
+
+## 🏗️ Arquitectura
+
+La aplicación sigue una arquitectura basada en cliente + BaaS (Backend as a Service):
+
+- **Frontend:** React / Next.js
+- **Backend:** Firebase
+- **Base de datos:** Firestore (NoSQL, en tiempo real)
+- **Autenticación:** Firebase Authentication
+- **Despliegue:** Vercel
+
+### 🔍 Decisiones técnicas
+
+- Uso de **Firestore** para simplificar backend y permitir escalabilidad sin infraestructura propia
+- Modelo de datos orientado a usuario → cada colección es independiente
+- Separación de responsabilidades por vistas (Dashboard, Buscador, Colección, Recomendador)
+- Lógica de recomendación desacoplada, fácil de evolucionar a modelos más complejos
+
+---
