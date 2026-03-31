@@ -24,7 +24,9 @@ export default function Home() {
         <div className="flex gap-2">
           <span className="text-3xl">{movies?.length ?? 0}</span>{' '}
           <span className="flex items-end pb-1 text-green-600 text-sm">
-            +{countMoviesThisMonth(movies)} este mes
+            {countMoviesThisMonth(movies) >= 1
+              ? `+${countMoviesThisMonth(movies)} este mes`
+              : ''}
           </span>
         </div>
       </div>

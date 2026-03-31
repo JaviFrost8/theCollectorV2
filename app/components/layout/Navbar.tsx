@@ -17,7 +17,7 @@ export const Navbar = () => {
   return (
     <nav className="w-full md:flex md:justify-between border-b border-[#232f48] px-6 py-5 select-none focus:outline-none">
       <div className="flex justify-between items-center">
-        <Link href={user ? '/dashboard' : '/search'}>
+        <Link href={user ? '/' : '/search'}>
           <div className="flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
