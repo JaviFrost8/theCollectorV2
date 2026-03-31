@@ -12,7 +12,7 @@ interface Props {
   uid: string;
 }
 
-export type OrderOption = 'title' | 'year';
+export type OrderOption = 'title' | 'year' | 'price';
 
 export const CollectionContent = ({ uid }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,9 +30,15 @@ export const CollectionContent = ({ uid }: Props) => {
 
     const getYear = (date: string) => Number(date.slice(0, 4));
 
-    const filtered = movies.filter((movie) =>
-      movie.title.toLowerCase().includes(inputText.toLowerCase().trim()),
-    );
+    const filtered = movies.filter((movie) => {
+      const matchedTitle = movie.title
+        .toLowerCase()
+        .includes(inputText.toLowerCase().trim());
+
+      const matchesPrice = optionValue === 'price' ? movie.price == null : true;
+
+      return matchedTitle && matchesPrice;
+    });
 
     const sorted = [...filtered].sort((a, b) => {
       if (optionValue === 'year') {
@@ -97,6 +103,7 @@ export const CollectionContent = ({ uid }: Props) => {
           inputText={inputText}
           optionValue={optionValue}
           onSearchChange={onSearchChange}
+          movies={movies}
         />
       </div>
       {/*Aquí empieza el wrap para las películas*/}
