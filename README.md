@@ -6,8 +6,7 @@ Aplicación web full-stack diseñada para gestionar colecciones personales de pe
 
 ## 🌐 Demo en vivo
 
-👉 https://tu-app.vercel.app  
-_(Desplegado en Vercel)_
+👉 https://tu-app.vercel.app
 
 ---
 
