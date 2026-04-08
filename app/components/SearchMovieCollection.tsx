@@ -25,7 +25,7 @@ export const SearchMovieCollection = ({
         type="text"
         value={inputText}
         onChange={(e) => onSearchChange(e.target.value, optionValue)}
-        placeholder="Buscar por título, director o año..."
+        placeholder="Buscar por título"
         className="w-full bg-[#232f48] p-3 rounded-md focus:outline-none"
       />
 
