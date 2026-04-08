@@ -50,8 +50,11 @@ export const MovieInfo = ({ movie, credits }: MovieInfoProps) => {
   async function handleRemoveMovie() {
     if (!user) return;
 
-    await removeMovieFromUser(user.uid, movie.id);
-    alert(`${movie.title} eliminada de la colección`);
+    const deleted = await removeMovieFromUser(user.uid, movie.id);
+
+    if (deleted) {
+      alert(`${movie.title} eliminada de la colección`);
+    }
   }
 
   useEffect(() => {
